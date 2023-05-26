@@ -162,7 +162,7 @@ if ($row_pedidos['mercado'] == "int") {
 	$condicoes_venda = '
 	<tr><td><b>ICMS</b></td><td><b>IPI</b></td></tr>
 	<tr><td style="background-color:#EEE;">'.number_format($row_dolar['icms'], 2, ',','.').'%</td>
-		<td style="background-color:#EEE;">Não incluso</td></tr>
+		<td style="background-color:#EEE;">'.number_format($row_dolar['ipi'], 2, ',','.').'% (não incluso)</td></tr>
 	<tr><td><b>Pagamento</b></td><td><b>Frete</b></td></tr>
 	<tr><td style="background-color:#EEE;">'.$prazo.'</td>
 		<td style="background-color:#EEE;">'.$frete.'</td></tr>

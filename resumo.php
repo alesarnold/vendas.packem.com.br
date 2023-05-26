@@ -1002,6 +1002,7 @@ if(mysqli_num_rows($query_ped_desc)) {
     </table>
     <?php
 $valor_icms = $row_impostos["icms"];
+$valor_ipi = $row_impostos["ipi"];
 $valor_pis = $row_impostos["pis"];
 $valor_cofins = $row_impostos["cofins"];
 $valor_ir = $row_impostos["ir"];
@@ -1119,7 +1120,12 @@ if($valor_inss > 0) {
 <?php
 }*/
 ?>
-        <td colspan="2"></td>
+        <td>
+          <?php echo "IPI (não incluso)"; ?>
+        </td>
+        <td style="width: 140px;" class="contabil">
+          <?php echo number_format((float)$valor_ipi, 2, ',', '.'); ?>%
+        </td>
         <td>
           <?php echo "<b>TOTAL DE IMPOSTOS</b>"; ?>
         </td>

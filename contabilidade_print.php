@@ -135,12 +135,14 @@ hr {
 <thead>
 	<tr>
 		<th>VALORES</th>
-		<th align="center" width="12%"><b>CD</b></th>
-		<th align="center" width="12%"><b>Uberaba</b></th>
-		<th align="center" width="12%"><b>Esteio</b></th>
-		<th align="center" width="12%"><b>Petrolândia</b></th>
-		<th align="center" width="12%"><b>Agrolândia</b></th>
-		<th align="center" width="12%"><b>Aurora</b></th>
+<?
+$query_fornec = mysqli_query($conn,"SELECT * FROM `fornecedora`");
+while($row_fornec = mysqli_fetch_array($query_fornec)) {
+?>
+		<th style="text-align: center !important;" width="12%"><b><? echo $row_fornec['apelido']; ?></b></th>
+<?
+}
+?>
 	</tr>
 </thead>
 <?php
@@ -179,12 +181,14 @@ while($row = mysqli_fetch_array($contabil)) {
 <thead>
 	<tr>
 		<th>DESCRIÇÃO</th>
-		<th style="text-align:center;" colspan="2"><b>CD</b></th>
-		<th style="text-align:center;" colspan="2"><b>Uberaba</b></th>
-		<th style="text-align:center;" colspan="2"><b>Esteio</b></th>
-		<th style="text-align:center;" colspan="2"><b>Petrolândia</b></th>
-		<th style="text-align:center;" colspan="2"><b>Agrolândia</b></th>
-		<th style="text-align:center;" colspan="2"><b>Aurora</b></th>
+<?
+$query_fornec = mysqli_query($conn,"SELECT * FROM `fornecedora`");
+while($row_fornec = mysqli_fetch_array($query_fornec)) {
+?>
+		<th style="text-align:center;" colspan="2"><b><? echo $row_fornec['apelido']; ?></b></th>
+<?
+}
+?>
 	</tr>
 	<tr>
 		<td></td>

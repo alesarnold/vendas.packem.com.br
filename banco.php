@@ -31,13 +31,17 @@ $con = new mysqli($host, $user, $password, $dbname, $port, $socket)
 //$q_conf = "INSERT INTO `fornecedora` VALUES (1,'F1','CD',NULL),(2,'F2','Uberaba',NULL),(3,'F3','Esteio',NULL),(4,'F4','Petrolândia',NULL),(5,'F5','Agrolândia',NULL),(6,'F6','Aurora',NULL);";
 //$rs_conf = mysqli_query($con, $q_conf);
   
-$query = "SELECT TABLE_NAME,TABLE_ROWS,DATA_LENGTH,AUTO_INCREMENT FROM information_schema.tables WHERE table_type='BASE TABLE';";
+//$query = "SELECT TABLE_NAME,TABLE_ROWS,DATA_LENGTH,AUTO_INCREMENT FROM information_schema.tables WHERE table_type='BASE TABLE';";
+//$query = "ALTER TABLE `pedidos_extra` ADD COLUMN `ipi` DECIMAL(10,2) NOT NULL AFTER `icms`;";
+//$query = "SELECT * FROM `pedidos_extra`;";
 //$query = "SHOW TABLES;";
 //$query = "SELECT * FROM estados;";
 //$query = "SELECT * FROM politica;";
 //$query = "TRUNCATE TABLE preco_import;";
-$result = mysqli_query($con, $query);
 
+//$result = mysqli_query($con, $query);
+
+/*
 if(mysqli_num_rows($result) > 0)
     {
        echo '<pre>';
@@ -50,7 +54,7 @@ if(mysqli_num_rows($result) > 0)
     {
         echo "0 results";
     }
-
+*/
 
     
 

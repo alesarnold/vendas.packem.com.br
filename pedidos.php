@@ -1542,6 +1542,7 @@ $valor_cif = number_format(str_replace(",",".",$_POST["valor_cif"]),2);
 $valor_mao_obra = number_format(str_replace(",",".",$_POST["valor_mao_obra"]),2);
 $valor_custo_bag = number_format(str_replace(",",".",$_POST["valor_custo_bag"]),2);
 $imposto_icms = number_format(str_replace(",",".",$_POST["imposto_icms"]),2);
+$imposto_ipi = number_format(str_replace(",",".",$_POST["imposto_ipi"]),2);
 $imposto_pis = number_format(str_replace(",",".",$_POST["imposto_pis"]),2);
 $imposto_cofins = number_format(str_replace(",",".",$_POST["imposto_cofins"]),2);
 $imposto_ir = number_format(str_replace(",",".",$_POST["imposto_ir"]),2);
@@ -1581,7 +1582,7 @@ echo $valor_final_pedido."<br>";
 */
 
 
-$sql_extra = "INSERT INTO `pedidos_extra` (`id`, `pedido`, `revisao`, `class_prod`, `mat_auxiliar`, `cif`, `mao_obra`, `custo_bag`, `icms`, `pis`, `cofins`, `ir`, `csll`, `inss`, `perda`, `frete`, `comissao`, `adm_comercial`, `custo_fin`, `margem`, `imposto_total`, `valor_dolar`, `cambio`, `cambio_data`, `rev_valor`)  VALUES (NULL, '$no_pedido', '$revisao_pedido', '$class_prod', '$valor_mat_auxiliar', '$valor_cif', '$valor_mao_obra', '$valor_custo_bag', '$imposto_icms', '$imposto_pis', '$imposto_cofins', '$imposto_ir', '$imposto_csll', '$imposto_inss', '$imposto_perda', '$imposto_frete', '$imposto_comissao', '$imposto_adm_comercial', '$imposto_custo_fin', '$imposto_margem', '$imposto_total', '$valor_final_dolar', '$cambio_dolar', '$cambio_data', '$rev_valor');";
+$sql_extra = "INSERT INTO `pedidos_extra` (`id`, `pedido`, `revisao`, `class_prod`, `mat_auxiliar`, `cif`, `mao_obra`, `custo_bag`, `icms`, `ipi`, `pis`, `cofins`, `ir`, `csll`, `inss`, `perda`, `frete`, `comissao`, `adm_comercial`, `custo_fin`, `margem`, `imposto_total`, `valor_dolar`, `cambio`, `cambio_data`, `rev_valor`)  VALUES (NULL, '$no_pedido', '$revisao_pedido', '$class_prod', '$valor_mat_auxiliar', '$valor_cif', '$valor_mao_obra', '$valor_custo_bag', '$imposto_icms', '$imposto_ipi', '$imposto_pis', '$imposto_cofins', '$imposto_ir', '$imposto_csll', '$imposto_inss', '$imposto_perda', '$imposto_frete', '$imposto_comissao', '$imposto_adm_comercial', '$imposto_custo_fin', '$imposto_margem', '$imposto_total', '$valor_final_dolar', '$cambio_dolar', '$cambio_data', '$rev_valor');";
 $pedido_extra = mysqli_query( $conn, $sql_extra );
 if(! $pedido_extra ) { die('Não foi possível atualizar extras do orçamento: ' . mysqli_error()); }
 
@@ -2215,6 +2216,7 @@ echo " = ".$valor_imposto."<br><br>";
 */
 
 $valor_icms = $row_impostos["icms"];
+$valor_ipi = $row_impostos["ipi"];
 $valor_pis = $row_impostos["pis"];
 $valor_cofins = $row_impostos["cofins"];
 $valor_ir = $row_impostos["ir"];
@@ -2282,9 +2284,9 @@ if ($pedido["mercado"] == "ext") {
 <td><div class="has-feedback"><input onchange="CalculaImpostos();" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" class="form-control has-feedback-right" type="text" id="imposto_custo_fin" name="imposto_custo_fin" value="<?php echo number_format((float)$valor_cfinanceiro, 2, ',', '.'); ?>"<?php echo $editar; ?>><span class="form-control-feedback right"> %</span></div></td>
 </tr>
 <tr>
-<td style="border:0;"></td>
-<td style="border:0;"></td>
-<td style="border:0;"></td>
+<td><?php echo "IPI (não incluso)"; ?></td>
+<td><div class="has-feedback"><input class="form-control has-feedback-right" type="text" id="imposto_ipi" name="imposto_ipi" value="<?php echo number_format((float)$valor_ipi, 2, ',', '.'); ?>"><span class="form-control-feedback right"> %</span></div></td>
+<td style="border-top:none; border-bottom:0;"></td>
 <td><?php echo "<b>TOTAL DE IMPOSTOS</b>"; ?></td>
 <td><div class="has-feedback"><input onchange="CalculaImpostos();" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" class="form-control has-feedback-right" style="font-weight: bold;" type="text" id="imposto_total" name="imposto_total" value="<?php echo number_format((float)$valor_imposto, 3, ',', '.'); ?>"<?php echo $editar; ?>><span class="form-control-feedback right"> <b>%</b></span></div></td>
 </tr>

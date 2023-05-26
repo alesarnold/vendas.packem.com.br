@@ -179,7 +179,8 @@ $status[4] = "Aprovado";
 <span style="float:left;"><h2>Relatório gerencial</h2></span>
 <?php
 
-$pesquisa = "WHERE `nome_cliente` LIKE '%".$_GET["pesq"]."%' AND `id_vend` LIKE '%".$_GET["id_vend"]."%' AND `status` LIKE '1' OR `status` LIKE '2'";
+//$pesquisa = "WHERE `nome_cliente` LIKE '%".$_GET["pesq"]."%' AND `id_vend` LIKE '%".$_GET["id_vend"]."%' AND `status` LIKE '1' OR `status` LIKE '2'";
+$pesquisa = "WHERE `nome_cliente` LIKE '%".$_GET["pesq"]."%' AND `id_vend` LIKE '%".$_GET["id_vend"]."%'";
 
 //$page = (int)(!isset($_GET["page"]) ? 1 : $_GET["page"]);
 //if ($page <= 0) $page = 1;
@@ -188,31 +189,13 @@ $pesquisa = "WHERE `nome_cliente` LIKE '%".$_GET["pesq"]."%' AND `id_vend` LIKE 
 
 if ($_GET["data_inicio"] != "" || $_GET["data_final"] != "" || $_GET["pesq"] != "" || $_GET["num_orc"] != "" || $_GET["tel"] != "" || $_GET["id_vend"] != "" || $_GET["dim"] != "" || $_GET["qtde"] != "" || $_GET["ref"] != "" || $_GET["rep"] != "") {
 	if ($_GET["data_inicio"] != "" && $_GET["data_final"] != "") {
-		$strpesq1 = "`x`.`data` BETWEEN '".$_GET["data_inicio"]." 00:00:00' AND '".$_GET["data_final"]." 23:59:59' AND ";
+		$strpesq1 = "`data` BETWEEN '".$_GET["data_inicio"]." 00:00:00' AND '".$_GET["data_final"]." 23:59:59' AND ";
 	}
 	if ($_GET["pesq"] != "") {
-		$strpesq2 = "`x`.`nome_cliente` LIKE '%".$_GET["pesq"]."%' AND ";
-	}
-	if ($_GET["num_orc"] != "") {
-		$strpesq3 = "`x`.`pedido` LIKE '".$_GET["num_orc"]."' AND ";
-	}
-	if ($_GET["id_vend"] != "") {
-		$strpesq4 = "`x`.`id_vend` LIKE '".$_GET["id_vend"]."' AND ";
-	}
-	if ($_GET["dim"] != "") {
-		$strpesq5 = "CONCAT(`base1`, 'x', `base2`, 'x', `altura`) LIKE '".$_GET["dim"]."' AND ";
-	}
-	if ($_GET["qtde"] != "") {
-		$strpesq6 = "`x`.`qtde` LIKE '".$_GET["qtde"]."' AND ";
-	}
-	if ($_GET["ref"] != "") {
-		$strpesq7 = "`x`.`referencia` LIKE '%".$_GET["ref"]."%' AND ";
-	}
-	if ($_GET["rep"] != "") {
-		$strpesq8 = "`x`.`representante` LIKE '%".$_GET["rep"]."%' AND ";
+		$strpesq2 = "`nome_cliente` LIKE '%".$_GET["pesq"]."%' AND ";
 	}
 
-	$strpesq = "WHERE ".$strpesq1.$strpesq2.$strpesq3.$strpesq4.$strpesq5.$strpesq6.$strpesq7.$strpesq8;
+	$strpesq = "WHERE ".$strpesq1.$strpesq2;
 } else {
 	$strpesq = "WHERE ";
 }
@@ -222,15 +205,21 @@ if ($_GET["data_inicio"] != "" || $_GET["data_final"] != "" || $_GET["pesq"] != 
 if ($_GET["status"] != "") {
 	$status_ped = $_GET["status"];
 
-	if ($status_ped == "1") { $semstatus = "AND `x`.`status` NOT LIKE '2' AND `x`.`status` NOT LIKE '3' AND `x`.`status` NOT LIKE '4' AND `x`.`status` NOT LIKE '5' AND `x`.`status` NOT LIKE '6' AND `x`.`status` NOT LIKE '7'"; }
-	if ($status_ped == "2") { $semstatus = "AND `x`.`status` NOT LIKE '1' AND `x`.`status` NOT LIKE '3' AND `x`.`status` NOT LIKE '4' AND `x`.`status` NOT LIKE '5' AND `x`.`status` NOT LIKE '6' AND `x`.`status` NOT LIKE '7'"; }
-	if ($status_ped == "3") { $semstatus = "AND `x`.`status` NOT LIKE '1' AND `x`.`status` NOT LIKE '2' AND `x`.`status` NOT LIKE '4' AND `x`.`status` NOT LIKE '5' AND `x`.`status` NOT LIKE '6' AND `x`.`status` NOT LIKE '7'"; }
-	if ($status_ped == "4") { $semstatus = "AND `x`.`status` NOT LIKE '1' AND `x`.`status` NOT LIKE '2' AND `x`.`status` NOT LIKE '3' AND `x`.`status` NOT LIKE '5' AND `x`.`status` NOT LIKE '6' AND `x`.`status` NOT LIKE '7'"; }
+	$semstatus = "AND `status` = '".$status_ped."' ";
+
 } else {
 	$status_ped = "1";
 }
 
-$statement = "(SELECT * FROM `pedidos` ORDER BY `id` DESC) x {$strpesq} `x`.`status` NOT LIKE '0' {$semstatus} GROUP BY `pedido` ORDER BY `x`.`pedido` DESC ";//ORDER BY `x`.`pedido` ASC LIMIT 0 , 50
+//$statement = "(SELECT * FROM `pedidos` ORDER BY `id` DESC) x {$strpesq} `x`.`status` NOT LIKE '0' {$semstatus} GROUP BY `pedido` ORDER BY `x`.`pedido` DESC ";//ORDER BY `x`.`pedido` ASC LIMIT 0 , 50
+$statement = "`pedidos` {$strpesq} 1=1 {$semstatus} AND id IN (SELECT max(id) FROM pedidos x GROUP BY x.pedido) GROUP BY `pedido` ORDER BY `pedido` DESC ";//ORDER BY `x`.`pedido` ASC LIMIT 0 , 50
+
+/*
+echo "<pre>";
+echo "SELECT `pedido`,`nome_cliente`,`qtde`,`referencia`,`representante`,`base1`,`base2`,`altura`,`valor_final`,`data`,`status` FROM {$statement}";
+echo "</pre>";
+//die();
+*/
 
 $results = mysqli_query($conn,"SELECT `pedido`,`nome_cliente`,`qtde`,`referencia`,`representante`,`base1`,`base2`,`altura`,`valor_final`,`data`,`status` FROM {$statement}");
 

@@ -7263,6 +7263,9 @@ $valor_icms = $row_icms["".$uf_cliente.""];
 
 }
 
+/* ============ IPI ============ */
+$valor_ipi = 9.75;
+
 /* ============ PIS ============ */
 
 $query_pis = mysqli_query($conn,"SELECT * FROM `imposto_pis` WHERE `unidade` LIKE '".$unidade_forn."'");
@@ -7547,7 +7550,7 @@ $sql = "INSERT INTO `pedidos` (`id`, `pedido`, `nome_cliente`, `segmento_cliente
 
 //die(); 
 
-$sql_extra = "INSERT INTO `pedidos_extra` (`id`, `pedido`, `revisao`, `class_prod`, `mat_auxiliar`, `cif`, `mao_obra`, `custo_bag`, `icms`, `pis`, `cofins`, `ir`, `csll`, `inss`, `perda`, `frete`, `comissao`, `adm_comercial`, `custo_fin`, `margem`, `imposto_total`, `valor_dolar`, `cambio`, `cambio_data`, `rev_valor`) VALUES (NULL, '".$no_pedido."', '0', '".$class_prod."', '".$valor_mat_auxiliar."', '".$valor_cif."', '".$valor_mao_obra."', '".$total."', '".$valor_icms."', '".$valor_pis."', '".$valor_cofins."', '".$valor_ir."', '".$valor_csll."', '".$valor_inss."', '".$valor_perda."', '".$valor_frete."', '".$valor_comissao."', '".$valor_adm_comercial."', '".$valor_cfinanceiro."', '".$valor_margem."', '".$valor_imposto."',  '".$valor_final_dolar."', '".$cambio_dolar."', '".$data_ped."', '0')";
+$sql_extra = "INSERT INTO `pedidos_extra` (`id`, `pedido`, `revisao`, `class_prod`, `mat_auxiliar`, `cif`, `mao_obra`, `custo_bag`, `icms`, `ipi`, `pis`, `cofins`, `ir`, `csll`, `inss`, `perda`, `frete`, `comissao`, `adm_comercial`, `custo_fin`, `margem`, `imposto_total`, `valor_dolar`, `cambio`, `cambio_data`, `rev_valor`) VALUES (NULL, '".$no_pedido."', '0', '".$class_prod."', '".$valor_mat_auxiliar."', '".$valor_cif."', '".$valor_mao_obra."', '".$total."', '".$valor_icms."', '".$valor_ipi."', '".$valor_pis."', '".$valor_cofins."', '".$valor_ir."', '".$valor_csll."', '".$valor_inss."', '".$valor_perda."', '".$valor_frete."', '".$valor_comissao."', '".$valor_adm_comercial."', '".$valor_cfinanceiro."', '".$valor_margem."', '".$valor_imposto."',  '".$valor_final_dolar."', '".$cambio_dolar."', '".$data_ped."', '0')";
 
 $sql_repres = "INSERT INTO `pedidos_repres` (`id`, `pedido`, `id_vend`, `data_criacao`, `data_liberacao`, `data_reativado`, `data_venc1`, `data_venc2`, `id_motivo`, `det_motivo`, `status`) VALUES (NULL, '".(float)$no_pedido."', '".$_SESSION['user']['id']."', '".date("Y-m-d")."', NULL, NULL, NULL, NULL, NULL, NULL, '1');";
 
